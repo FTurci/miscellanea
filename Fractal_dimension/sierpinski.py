@@ -23,9 +23,9 @@ pixels=pl.array(pixels)
 # pl.show()
 print pixels.shape
 
-# computing the fractal dimensio
+# computing the fractal dimension
 #considering only scales in a logarithmic list
-scales=np.logspace(1, 8, num=20, endpoint=False, base=2)
+scales=np.logspace(0.01, 10, num=10, endpoint=False, base=2)
 Ns=[]
 # looping over several scales
 for scale in scales:
