@@ -26,7 +26,7 @@ def inverse_spherical_FT(ff,k,r,dk):
         ift[i]=pl.sum(k*pl.sin(k*r[i])*ff*dk)/r[i]/(2*pi**2)
     return ift
 
-def PercusYevickHS(phi,plot=True,filename="g_of_r.txt"):
+def PercusYevickHS(phi,plot=True,filename="g_of_r.txt", factor=8, shift=0):
     # number density
     rho=6./pi*phi
     # getting the direct correlation function c(r) from the analytic Percus-Yevick solution
@@ -34,10 +34,10 @@ def PercusYevickHS(phi,plot=True,filename="g_of_r.txt"):
     c=pl.vectorize(cc)
     # space discretization
     dr=0.0005
-    r=pl.arange(1,1024*8+1,1 )*dr
+    r=pl.arange(1,1024*factor+1,1 )*dr
     # reciprocal space discretization (highest available frequency)
     dk=1/r[-1]
-    k=pl.arange(1,1024*8+1,1 )*dk
+    k=pl.arange(1,1024*factor+1,1 )*dk
     # direct correlation function c(r)
     c_direct=c(r,phi)
     # getting the Fourier transform
@@ -53,12 +53,12 @@ def PercusYevickHS(phi,plot=True,filename="g_of_r.txt"):
     g=pl.zeros(len(gg))
     g[r>=1]=gg[r>=1]
     # save the cleaned version
-    pl.savetxt(filename, zip(r,g))
+    pl.savetxt(filename, list(zip(r,g)))
     # plots
     if plot:
-        pl.plot(r,g)
+        pl.plot(r,g+shift)
         pl.ylabel("g(r)")
-        pl.xlabel("r")
+        pl.xlabel(r"$r/\sigma$")
 
 # call the function
 # PercusYevickHS(0.2)
@@ -68,7 +68,8 @@ def PercusYevickHS(phi,plot=True,filename="g_of_r.txt"):
 # PercusYevickHS(0.53)
 # PercusYevickHS(0.54)
 # PercusYevickHS(0.55)
-for i in pl.linspace(0.45,0.55,4):
-    PercusYevickHS(i)
+for i,phi in enumerate(pl.linspace(0.1,0.55,3)):
+    PercusYevickHS(phi, factor=12,shift=i)
 # pl.xlim(1,2)
+pl.savefig("profs.svg")
 pl.show()

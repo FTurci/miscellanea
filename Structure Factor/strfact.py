@@ -24,7 +24,7 @@ ftk = (fftshift(fftn(fftshift(f))))
 sk = np.abs(ftk**2) / float(Natoms)
 # find max
 centre=np.unravel_index(sk.argmax(),sk.shape)
-print centre
+print (centre)
 p=radial_profile(sk, centre)
 pl.loglog(p)
 pl.show()

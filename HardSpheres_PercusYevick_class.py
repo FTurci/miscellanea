@@ -2,6 +2,8 @@ import pylab as pl
 from numpy import pi,vectorize, zeros,column_stack
 from numba import autojit,jit
 
+
+
 @jit(nopython=True)
 def spherical_FT(f,k,r,dr):
 	ft=pl.zeros(len(k))
@@ -21,16 +23,14 @@ class HardSpheresPY(object):
 	def __init__(self, arg):
 		self.eta = arg
 	# Percus-Yevick Terms  (see for instance D. Henderson Condensed Matter Physics 2009, Vol. 12, No 2, pp. 127-135)
-
+	# Percus-Yevick Terms  (see for instance D. Henderson Condensed Matter Physics 2009, Vol. 12, No 2, pp. 127-135)
 	def c0(self):
-		return -(1.+2.*self.eta)**2/(1.-self.eta)**4
-
-
+	    return -(1.+2.*self.eta)**2/(1.-self.eta)**4
 	def c1(self):
-		return 6.*self.eta*(1.+self.eta*0.5)**2/(1.-self.eta)**4
-
+	    return 6.*self.eta*(1.+self.eta*0.5)**2/(1.-self.eta)**4
 	def c3(self):
-		return self.eta*0.5*self.c0()
+	    return self.eta*0.5*self.c0()
+	 
 
 	def c(self,r):
 		"""Hard spheres correlation function c(r) at given packing fraction self.eta.
@@ -81,6 +81,6 @@ class HardSpheresPY(object):
 			# pl.show()
 		return r,g
 
-a = HardSpheresPY(0.5)
-r,g = a.PercusYevick(dr=0.00001,plot=True, npoints = 1024*10)
-pl.show()
+# a = HardSpheresPY(0.5)
+# r,g = a.PercusYevick(dr=0.00001,plot=True, npoints = 1024*10)
+# pl.show()
